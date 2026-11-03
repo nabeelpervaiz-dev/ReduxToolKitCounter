@@ -1,7 +1,12 @@
 import { useState } from 'react'
 import './App.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { byValue, decrement, increment, reset } from './Redux/features/CounterSlice'
 
 function App() {
+
+  const dispatch = useDispatch()
+  const count = useSelector((state)=>state.counter.value)
  
   const [Num, setNum] = useState(0)
   return (
@@ -11,11 +16,19 @@ function App() {
   
    <div className="card flex flex-col gap-5 items-center border-2 rounded-xl p-10">
     
-    <h1 className='text-9xl font-bold'>0</h1>
+    <h1 className='text-9xl font-bold'>{count}</h1>
 
     <div className='btn flex gap-4  '>
-      <button className='active:scale-95 bg-blue-600 p-6 cursor-pointer rounded-xl font-bold text-white '>Increment</button>
-      <button className='active:scale-95 bg-blue-600 p-6 cursor-pointer rounded-xl font-bold  text-white '>Decrement</button>
+      <button 
+      onClick={()=>[
+        dispatch(increment())
+      ]}
+       className='active:scale-95 bg-blue-600 p-6 cursor-pointer rounded-xl font-bold text-white '>Increment</button>
+      <button
+      onClick={()=>{
+        dispatch(decrement())
+      }}
+       className='active:scale-95 bg-blue-600 p-6 cursor-pointer rounded-xl font-bold  text-white '>Decrement</button>
     </div>
 
  <div className="Feild flex flex-col gap-5">
@@ -25,9 +38,17 @@ function App() {
     setNum(e.target.value)
   }}
   className='p-5 border-2 border-gray-500 outline-none rounded-xl' type="number" />
-  <button className='active:scale-95 bg-blue-600  p-6 cursor-pointer rounded-xl font-bold  text-white'>Incrase by {Num}</button>
+  <button
+  onClick={()=>{
+    dispatch(byValue(Number(Num)))
+  }}
+   className='active:scale-95 bg-blue-600  p-6 cursor-pointer rounded-xl font-bold  text-white'>Incrase by {Num}</button>
 
-   <button className=' active:scale-95 bg-red-600  p-6 cursor-pointer rounded-xl font-bold  text-white'>Reset</button>
+   <button
+   onClick={()=>[
+    dispatch(reset())
+   ]}
+    className=' active:scale-95 bg-red-600  p-6 cursor-pointer rounded-xl font-bold  text-white'>Reset</button>
  </div>
 
 
